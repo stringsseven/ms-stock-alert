@@ -1,0 +1,19 @@
+name: M&S Stock Checker
+
+on:
+  schedule:
+    - cron: "*/3 * * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - run: pip install requests beautifulsoup4
+      - run: python checker.py
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
